@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2025년 세금 변경 정책 안내</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Re-added Chart.js for the calculator visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals & Soft Accents -->
-    <!-- Application Structure Plan: A single-page, vertically scrolling app designed to guide users from a general overview to specific details and a practical simulation. Structure: 1. Intro (sets the friendly tone). 2. Core Change (what & why). 3. Interactive Check (am I affected?). 4. Interactive Calculator (to demystify the non-taxable limit, the most complex part). 5. Final Reassurance (what to do). 6. FAQ Summary. This thematic, guided flow is more user-friendly for a potentially anxious topic like taxes than a dense dashboard, turning passive reading into active learning. -->
-    <!-- Visualization & Content Choices: 1. Info: Key policy changes. Goal: Inform. Method: Styled HTML/Tailwind cards with CSS icons. Interaction: Simple JS-powered reveal. Justification: More engaging than plain text. 2. Info: Non-taxable limit calculation. Goal: Compare/Simulate. Method: Chart.js dynamic bar chart. Interaction: User inputs numbers, chart and text update instantly. Justification: Visualizing the complex 'greater of' rule makes it far more understandable than text alone. 3. Info: Original FAQ. Goal: Organize/Reference. Method: HTML/Tailwind accordion. Interaction: Click to expand. Justification: Keeps the UI clean. All methods confirm NO SVG/Mermaid. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -35,6 +32,41 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
+        }
+        /* Custom styles for Q&A section with more color */
+        .accordion-item {
+            background-color: #fff;
+            border: 1px solid #fed7aa; /* amber-200 */
+            border-radius: 0.5rem; /* rounded-lg */
+            overflow: hidden;
+        }
+        .accordion-header {
+            background-color: #fef3c7; /* amber-100 */
+            color: #78350f; /* amber-900 */
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #fde68a; /* amber-200 hover */
+        }
+        .accordion-content p {
+            padding: 1rem 1rem 0; /* padding-4 pt-0 */
+            color: #4b5563; /* gray-700 */
+        }
+        .accordion-header span:last-child {
+            transition: transform 0.3s ease;
+        }
+        .accordion-header span:last-child.rotate-180 {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -76,7 +108,7 @@
                 <p><span class="font-bold">네, 영향을 받을 수 있어요.</span> 하지만 모든 금액에 세금이 붙는 건 아니니 아래 계산기로 비과세 한도를 확인해보세요!</p>
             </div>
             <div id="result-not-used" class="hidden bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md text-left">
-                 <p><span class="font-bold">아니요, 걱정하지 마세요!</span> 할인을 실제로 사용하지 않았다면 이번 정책 변경으로 인해 추가로 낼 세금은 전혀 없답니다.</p>
+                   <p><span class="font-bold">아니요, 걱정하지 마세요!</span> 할인을 실제로 사용하지 않았다면 이번 정책 변경으로 인해 추가로 낼 세금은 전혀 없답니다.</p>
             </div>
         </section>
 
@@ -84,11 +116,17 @@
         <!-- Section 4: Interactive Calculator -->
         <section id="calculator" class="mb-12 bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200">
             <h2 class="text-2xl font-bold text-center mb-2">내 세금은 얼마나 될까? 간편 계산기 🧮</h2>
-            <p class="text-center text-gray-600 mb-8">한 해 동안 받은 총 할인 금액을 입력하면 과세 대상 금액을 예상해 볼 수 있어요.</p>
+            <p class="text-center text-gray-600 mb-8">총 할인 금액 단위를 선택하고, 필요한 경우 시가를 입력하여 과세 대상 금액을 예상해 볼 수 있어요.</p>
             <div class="grid md:grid-cols-2 gap-6 mb-8 items-start">
                 <div>
-                    <label for="total-discount" class="block font-medium mb-2">① 올해 받은 총 할인 금액 (원)</label>
-                    <input type="number" id="total-discount" placeholder="예: 3000000" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    <label class="block font-medium mb-2">① 올해 받은 총 할인 금액 (단위 선택)</label>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="1000000">100만원</button>
+                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="2000000">200만원</button>
+                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="3000000">300만원</button>
+                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="4000000">400만원</button>
+                    </div>
+                    <input type="hidden" id="selected-discount-value" value="0">
                 </div>
                 <div>
                     <label for="market-value" class="block font-medium mb-2">② 할인받은 서비스의 총 시가 (선택)</label>
@@ -121,40 +159,40 @@
         <section id="faq-summary">
             <h2 class="text-2xl font-bold text-center mb-6">다람이와 올빼미 할아버지의 Q&A 다시보기</h2>
             <div class="space-y-4 max-w-3xl mx-auto">
-                <div class="accordion-item bg-white border border-gray-200 rounded-lg">
-                    <button class="accordion-header w-full text-left p-4 font-semibold text-lg flex justify-between items-center hover:bg-gray-50">
+                <div class="accordion-item">
+                    <button class="accordion-header">
                         <span>Q. 2025년부터 할인받은 것에 세금이 붙는다는데, 정말인가요? 왜요?</span>
-                        <span class="transform transition-transform duration-300">▼</span>
+                        <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p class="p-4 pt-0 text-gray-700">A. 네, 맞아요! 2월 28일에 법이 바뀌어서 이제 회사에서 받은 할인 금액도 '근로소득'으로 봐요. 세금을 더 공정하게 매기기 위한 조치랍니다.</p>
+                        <p>A. 네, 맞아요! 2월 28일에 법이 바뀌어서 이제 회사에서 받은 할인 금액도 '근로소득'으로 봐요. 세금을 더 공정하게 매기기 위한 조치랍니다.</p>
                     </div>
                 </div>
-                <div class="accordion-item bg-white border border-gray-200 rounded-lg">
-                    <button class="accordion-header w-full text-left p-4 font-semibold text-lg flex justify-between items-center hover:bg-gray-50">
+                <div class="accordion-item">
+                    <button class="accordion-header">
                         <span>Q. 저는 G-FIT 같은 거 거의 안 쓰는데, 그래도 세금을 내야 하나요?</span>
-                         <span class="transform transition-transform duration-300">▼</span>
+                        <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p class="p-4 pt-0 text-gray-700">A. 아니요! 할인을 실제로 받은 경우에만 해당돼요. 할인을 전혀 쓰지 않았다면 추가로 낼 세금은 없으니 안심하세요.</p>
+                        <p>A. 아니요! 할인을 실제로 받은 경우에만 해당돼요. 할인을 전혀 쓰지 않았다면 추가로 낼 세금은 없으니 안심하세요.</p>
                     </div>
                 </div>
-                 <div class="accordion-item bg-white border border-gray-200 rounded-lg">
-                    <button class="accordion-header w-full text-left p-4 font-semibold text-lg flex justify-between items-center hover:bg-gray-50">
+                <div class="accordion-item">
+                    <button class="accordion-header">
                         <span>Q. '연 240만원 아니면 시가의 20%'라는 게 무슨 말인가요?</span>
-                         <span class="transform transition-transform duration-300">▼</span>
+                        <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p class="p-4 pt-0 text-gray-700">A. 우리한테 가장 유리한 쪽으로 세금을 깎아준다는 뜻이에요. 두 금액 중 더 큰 금액까지는 세금을 안 내도 돼요. 대부분의 경우 연 240만원까지는 세금 걱정 없이 할인을 받을 수 있을 거예요.</p>
+                        <p>A. 우리한테 가장 유리한 쪽으로 세금을 깎아준다는 뜻이에요. 두 금액 중 더 큰 금액까지는 세금을 안 내도 돼요. 대부분의 경우 연 240만원까지는 세금 걱정 없이 할인을 받을 수 있을 거예요.</p>
                     </div>
                 </div>
-                <div class="accordion-item bg-white border border-gray-200 rounded-lg">
-                    <button class="accordion-header w-full text-left p-4 font-semibold text-lg flex justify-between items-center hover:bg-gray-50">
+                <div class="accordion-item">
+                    <button class="accordion-header">
                         <span>Q. 한도를 넘어서 할인을 받으면 세금이 얼마나 붙나요? 제가 계산해야 하나요?</span>
-                         <span class="transform transition-transform duration-300">▼</span>
+                        <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p class="p-4 pt-0 text-gray-700">A. 한도를 초과한 금액은 다른 소득과 합쳐져서 세금이 계산돼요. 하지만 회사가 알아서 다 처리해줄 거니까 직접 하실 일은 전혀 없답니다!</p>
+                        <p>A. 한도를 초과한 금액은 다른 소득과 합쳐져서 세금이 계산돼요. 하지만 회사가 알아서 다 처리해줄 거니까 직접 하실 일은 전혀 없답니다!</p>
                     </div>
                 </div>
             </div>
@@ -169,6 +207,7 @@
             const resultUsed = document.getElementById('result-used');
             const resultNotUsed = document.getElementById('result-not-used');
             
+            // Event listeners for "Am I affected?" buttons
             usedBtn.addEventListener('click', () => {
                 resultUsed.classList.remove('hidden');
                 resultNotUsed.classList.add('hidden');
@@ -179,30 +218,48 @@
                 resultUsed.classList.add('hidden');
             });
 
+            const discountButtons = document.querySelectorAll('.discount-btn');
+            const selectedDiscountValueInput = document.getElementById('selected-discount-value');
             const calculateBtn = document.getElementById('calculate-btn');
             const resultArea = document.getElementById('result-area');
             const resultText = document.getElementById('result-text');
             const ctx = document.getElementById('taxChart').getContext('2d');
             let taxChart;
 
+            // Event listeners for discount amount selection buttons
+            discountButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active state from all buttons
+                    discountButtons.forEach(btn => btn.classList.remove('bg-amber-700'));
+                    // Add active state to the clicked button
+                    button.classList.add('bg-amber-700');
+                    selectedDiscountValueInput.value = button.dataset.value;
+                });
+            });
+
+            // Event listener for the calculate button
             calculateBtn.addEventListener('click', () => {
-                const totalDiscount = parseInt(document.getElementById('total-discount').value) || 0;
+                const totalDiscount = parseInt(selectedDiscountValueInput.value) || 0;
                 const marketValue = parseInt(document.getElementById('market-value').value) || 0;
 
                 if (totalDiscount === 0) {
-                    alert('총 할인 금액을 입력해주세요.');
+                    // Using a custom modal/message box instead of alert()
+                    resultText.innerHTML = '<p class="text-red-600 font-bold">총 할인 금액 단위를 선택해주세요.</p>';
+                    resultArea.classList.remove('hidden');
                     return;
                 }
 
-                const limit1 = 2400000;
-                const limit2 = marketValue * 0.2;
+                // Calculate non-taxable limit (the greater of 2.4 million KRW or 20% of market value)
+                const limit1 = 2400000; // 2.4 million KRW fixed limit
+                const limit2 = marketValue * 0.2; // 20% of market value
                 
                 const nonTaxableLimit = Math.max(limit1, limit2);
                 const taxableAmount = Math.max(0, totalDiscount - nonTaxableLimit);
-                const nonTaxableAmount = totalDiscount - taxableAmount;
+                const nonTaxableAmount = totalDiscount - taxableAmount; // Amount within the non-taxable limit
 
                 resultArea.classList.remove('hidden');
 
+                // Data for Chart.js
                 const data = {
                     labels: ['비과세 금액', '과세 대상 금액'],
                     datasets: [{
@@ -220,6 +277,7 @@
                     }]
                 };
 
+                // Update or create the chart
                 if (taxChart) {
                     taxChart.data = data;
                     taxChart.update();
@@ -228,7 +286,7 @@
                         type: 'bar',
                         data: data,
                         options: {
-                            indexAxis: 'y',
+                            indexAxis: 'y', // Horizontal bars
                             responsive: true,
                             maintainAspectRatio: false,
                             scales: {
@@ -238,15 +296,21 @@
                                         callback: function(value) {
                                             return new Intl.NumberFormat('ko-KR').format(value) + '원';
                                         }
+                                    },
+                                    grid: {
+                                        display: false // Hide x-axis grid lines for cleaner look
                                     }
                                 },
                                 y: {
-                                    stacked: true
+                                    stacked: true,
+                                    grid: {
+                                        display: false // Hide y-axis grid lines
+                                    }
                                 }
                             },
                             plugins: {
                                 legend: {
-                                    display: false
+                                    display: false // Hide legend
                                 },
                                 tooltip: {
                                     callbacks: {
@@ -267,21 +331,30 @@
                     });
                 }
                 
+                // Update result text
                 let explanation = `<p class="text-lg font-bold mb-2">총 할인 금액: ${totalDiscount.toLocaleString('ko-KR')}원</p>`;
                 if (marketValue > 0) {
-                     explanation += `<p class="text-gray-600">비과세 한도는 '연 240만원'과 '시가의 20%(${limit2.toLocaleString('ko-KR')}원)' 중 더 큰 금액인 <span class="font-bold">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>입니다.</p>`;
+                    explanation += `<p class="text-gray-600">비과세 한도는 '연 240만원'과 '시가의 20%(${limit2.toLocaleString('ko-KR')}원)' 중 더 큰 금액인 <span class="font-bold text-green-600">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>입니다.</p>`;
                 } else {
-                     explanation += `<p class="text-gray-600">기본 비과세 한도인 <span class="font-bold">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>이 적용됩니다.</p>`;
+                    explanation += `<p class="text-gray-600">기본 비과세 한도인 <span class="font-bold text-green-600">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>이 적용됩니다.</p>`;
                 }
-                explanation += `<p class="mt-4 text-xl font-bold">따라서 과세 대상이 되는 금액은 <span class="text-red-600">${taxableAmount.toLocaleString('ko-KR')}원</span> 입니다.</p>`;
+
+                if (taxableAmount > 0) {
+                    explanation += `<p class="mt-4 text-xl font-bold">따라서 과세 대상이 되는 금액은 <span class="text-red-600">${taxableAmount.toLocaleString('ko-KR')}원</span> 입니다.</p>`;
+                    explanation += `<p class="text-sm text-gray-500 mt-2">이 금액은 다른 소득과 합산되어 세금이 계산됩니다.</p>`;
+                } else {
+                    explanation += `<p class="mt-4 text-xl font-bold text-blue-600">이 금액은 비과세 한도 내에 있어 세금이 부과되지 않습니다.</p>`;
+                }
                 resultText.innerHTML = explanation;
             });
 
+            // Accordion functionality for Q&A
             document.querySelectorAll('.accordion-header').forEach(button => {
                 button.addEventListener('click', () => {
                     const content = button.nextElementSibling;
                     const arrow = button.querySelector('span:last-child');
                     
+                    // Close other open accordions
                     button.parentElement.parentElement.querySelectorAll('.accordion-content').forEach(item => {
                         if (item !== content) {
                            item.style.maxHeight = null;
@@ -289,6 +362,7 @@
                         }
                     });
 
+                    // Toggle current accordion
                     if (content.style.maxHeight) {
                         content.style.maxHeight = null;
                         arrow.classList.remove('rotate-180');
