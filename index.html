@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2025년 세금 변경 정책 안내</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Re-added Chart.js for the calculator visualization -->
+    <!-- Chart.js를 다시 추가하여 계산기 시각화에 사용합니다. -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- chartjs-plugin-datalabels 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -33,19 +35,19 @@
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
-        /* Custom styles for Q&A section with more color */
+        /* Q&A 섹션을 위한 사용자 정의 스타일 및 색상 */
         .accordion-item {
             background-color: #fff;
-            border: 1px solid #fed7aa; /* amber-200 */
-            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #fed7aa; /* 앰버-200 */
+            border-radius: 0.5rem; /* 둥근 모서리 */
             overflow: hidden;
         }
         .accordion-header {
-            background-color: #fef3c7; /* amber-100 */
-            color: #78350f; /* amber-900 */
+            background-color: #fef3c7; /* 앰버-100 */
+            color: #78350f; /* 앰버-900 */
             padding: 1rem;
             font-weight: 600;
-            font-size: 1.125rem; /* text-lg */
+            font-size: 1.125rem; /* 텍스트 크기 */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,17 +58,22 @@
             transition: background-color 0.3s ease;
         }
         .accordion-header:hover {
-            background-color: #fde68a; /* amber-200 hover */
+            background-color: #fde68a; /* 앰버-200 호버 효과 */
         }
         .accordion-content p {
-            padding: 1rem 1rem 0; /* padding-4 pt-0 */
-            color: #4b5563; /* gray-700 */
+            padding: 1rem 1rem 0; /* 패딩 */
+            color: #4b5563; /* 회색-700 */
         }
         .accordion-header span:last-child {
             transition: transform 0.3s ease;
         }
         .accordion-header span:last-child.rotate-180 {
             transform: rotate(180deg);
+        }
+        /* Style for the selected "Am I affected?" buttons */
+        .button-selected {
+            background-color: #d97706; /* amber-600 */
+            color: #ffffff; /* white */
         }
     </style>
 </head>
@@ -77,67 +84,72 @@
         <!-- Section 1: Hero/Introduction -->
         <header class="text-center mb-12">
             <div class="text-5xl mb-4">🐿️📜🦉</div>
-            <h1 class="text-3xl md:text-4xl font-bold text-amber-900">다람아, 세금 이야기는 어렵지 않아!</h1>
-            <p class="mt-4 text-lg text-gray-600">2025년부터 바뀌는 회사 할인 세금 정책, 올빼미 할아버지와 함께 쉽고 재미있게 알아봐요.</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-amber-900">다람아, 올빼미 할아버지가 <br>세금 이야기를 쉽고 재미있게 알려줄게!</h1>
+            <p class="mt-4 text-lg text-gray-600">2025년부터 바뀌는 비과세 정책, 할아버지랑 같이 궁금증을 풀어볼까?</p>
         </header>
 
         <!-- Section 2: The Core Change -->
         <section id="core-change" class="mb-12">
-            <h2 class="text-2xl font-bold text-center mb-6">무엇이, 왜 바뀌나요? 🤔</h2>
+            <h2 class="text-2xl font-bold text-center mb-6">다람아, 무엇이, 왜 바뀌는 걸까? 🤔</h2>
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                    <h3 class="font-bold text-xl mb-2 text-amber-800">🔍 무엇이?</h3>
-                    <p>이제 회사에서 받은 할인 혜택도 '근로소득'의 일부로 포함돼요. 월급처럼 세금 계산에 들어간다는 뜻이죠.</p>
+                    <h3 class="font-bold text-xl mb-2 text-amber-800">🔍 무엇이 바뀌는 걸까요?</h3>
+                    <p>이제 회사에서 받은 할인 혜택도 '월급'처럼 '근로소득'의 일부로 포함된단다.
+                        <br> 쉽게 말해, 세금을 계산할 때 같이 넣는다는 뜻이야.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                    <h3 class="font-bold text-xl mb-2 text-amber-800">⚖️ 왜?</h3>
-                    <p>모두에게 더 공평하게 세금을 부과하기 위한 조치예요. 현금으로 받는 월급과 비슷한 혜택으로 보는 거랍니다.</p>
+                    <h3 class="font-bold text-xl mb-2 text-amber-800">⚖️ 왜 바뀌는 걸까요?</h3>
+                    <p>모든 사람이 똑같이 공정하게 세금을 내도록 하기 위한 거란다.
+                    <br> 현금으로 받는 월급이나 할인 혜택이나 회사에서 받는 좋은 점은 똑같이 보는 거지.</p>
                 </div>
             </div>
         </section>
 
         <!-- Section 3: Am I affected? -->
         <section id="who-is-affected" class="mb-12 text-center">
-            <h2 class="text-2xl font-bold mb-4">그럼, 나도 세금을 더 낼까?</h2>
-            <p class="text-gray-600 mb-6">올해 회사에서 제공한 할인 혜택을 사용했는지에 따라 달라져요. 아래 버튼을 눌러 확인해보세요!</p>
+            <h2 class="text-2xl font-bold mb-4">그럼, 다람이 너도 세금을 더 내야 할까?</h2>
+            <p class="text-gray-600 mb-6">올해 회사에서 제공한 할인 혜택을 혹시 사용했는지에 따라 달라진단다.
+                <br> 아래 버튼을 눌러 확인해 보렴!</p>
             <div class="flex justify-center gap-4 mb-6">
-                <button id="used-btn" class="bg-amber-600 text-white px-6 py-3 rounded-full font-bold hover:bg-amber-700 transition">네, 할인을 사용했어요!</button>
+                <!-- Initial styling with gray -->
+                <button id="used-btn" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-bold hover:bg-gray-300 transition">네, 할인을 사용했어요!</button>
                 <button id="not-used-btn" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-bold hover:bg-gray-300 transition">아니요, 전혀 안 썼어요.</button>
             </div>
             <div id="result-used" class="hidden bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-md text-left">
-                <p><span class="font-bold">네, 영향을 받을 수 있어요.</span> 하지만 모든 금액에 세금이 붙는 건 아니니 아래 계산기로 비과세 한도를 확인해보세요!</p>
+                <p><span class="font-bold">응, 다람아. 영향을 받을 수도 있단다.</span>
+                    <br> 하지만 모든 할인 금액에 세금이 붙는 건 아니니 아래 계산기로 비과세 한도를 확인해보자!</p>
             </div>
             <div id="result-not-used" class="hidden bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md text-left">
-                   <p><span class="font-bold">아니요, 걱정하지 마세요!</span> 할인을 실제로 사용하지 않았다면 이번 정책 변경으로 인해 추가로 낼 세금은 전혀 없답니다.</p>
+                       <p><span class="font-bold">아니, 걱정하지 마렴!</span>
+                           <br> 할인을 실제로 사용하지 않았다면 이번 정책 변경 때문에 추가로 낼 세금은 전혀 없단다.</p>
             </div>
         </section>
 
-
-        <!-- Section 4: Interactive Calculator -->
+        <!-- Section 4: Interactive Calculator - MODIFIED SECTION -->
         <section id="calculator" class="mb-12 bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200">
-            <h2 class="text-2xl font-bold text-center mb-2">내 세금은 얼마나 될까? 간편 계산기 🧮</h2>
-            <p class="text-center text-gray-600 mb-8">총 할인 금액 단위를 선택하고, 필요한 경우 시가를 입력하여 과세 대상 금액을 예상해 볼 수 있어요.</p>
-            <div class="grid md:grid-cols-2 gap-6 mb-8 items-start">
-                <div>
-                    <label class="block font-medium mb-2">① 올해 받은 총 할인 금액 (단위 선택)</label>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="1000000">100만원</button>
-                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="2000000">200만원</button>
-                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="3000000">300만원</button>
-                        <button class="discount-btn bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition" data-value="4000000">400만원</button>
-                    </div>
-                    <input type="hidden" id="selected-discount-value" value="0">
-                </div>
-                <div>
-                    <label for="market-value" class="block font-medium mb-2">② 할인받은 서비스의 총 시가 (선택)</label>
-                    <input type="number" id="market-value" placeholder="모를 경우 비워두세요" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+            <h2 class="text-2xl font-bold text-center mb-2">내 세금은 얼마나 될까? 올빼미 할아버지 간편 계산기 🧮</h2>
+            <p class="text-center text-gray-600 mb-8">다람아, 네가 주로 사용한 회사 할인 혜택을 선택해서 예상되는 비과세 금액을 확인해보자.</p>
+            <div class="grid md:grid-cols-1 gap-6 mb-8 items-start">
+                <div class="flex flex-col gap-4">
+                    <label class="inline-flex items-center text-lg font-medium text-gray-700 cursor-pointer">
+                        <input type="checkbox" id="gfit-checkbox" class="form-checkbox h-5 w-5 text-amber-600 rounded-md focus:ring-amber-500 transition duration-150 ease-in-out">
+                        <span class="ml-3">G-fit을 이용하고 있어요.</span>
+                    </label>
+                    <label class="inline-flex items-center text-lg font-medium text-gray-700 cursor-pointer">
+                        <input type="checkbox" id="payco-cafe-checkbox" class="form-checkbox h-5 w-5 text-amber-600 rounded-md focus:ring-amber-500 transition duration-150 ease-in-out">
+                        <span class="ml-3">페이코 할인혜택을 월 15만원 이상 받고 있어요.</span>
+                    </label>
+                    <label class="inline-flex items-center text-lg font-medium text-gray-700 cursor-pointer">
+                        <input type="checkbox" id="none-checkbox" class="form-checkbox h-5 w-5 text-amber-600 rounded-md focus:ring-amber-500 transition duration-150 ease-in-out">
+                        <span class="ml-3">아무것도 해당 안돼요.</span>
+                    </label>
                 </div>
             </div>
             <div class="text-center mb-8">
-                <button id="calculate-btn" class="bg-amber-800 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-amber-900 transition">계산해보기!</button>
+                <button id="calculate-btn" class="bg-amber-800 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-amber-900 transition">결과 확인하기!</button>
             </div>
 
-            <div id="result-area" class="hidden">
+            <div id="result-area" class=""> <!-- hidden 클래스 제거 -->
                 <div class="chart-container mb-6">
                     <canvas id="taxChart"></canvas>
                 </div>
@@ -148,16 +160,19 @@
 
         <!-- Section 5: The Bottom Line -->
         <section id="bottom-line" class="mb-12 text-center">
-            <h2 class="text-2xl font-bold mb-4">그래서, 제가 뭘 해야 하죠?</h2>
+            <h2 class="text-2xl font-bold mb-4">그래서, 다람아! 네가 뭘 해야 하냐고?</h2>
              <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto border border-gray-200">
-                <p class="text-2xl text-amber-800 font-bold mb-4">결론: 아무것도 안 하셔도 됩니다! 😌</p>
-                <p class="text-lg text-gray-700">만약 과세 대상 금액이 발생하더라도, <span class="font-bold">회사가 알아서 모두 계산하고 처리</span>할 거예요. 연말정산 명세서에서 최종 결과를 확인만 하면 된답니다. 다람이가 직접 해야 할 일은 없으니 걱정 마세요!</p>
+                <p class="text-2xl text-amber-800 font-bold mb-4">비과세 한도 금액 이하로만 쓰면 된단다! 😌</p>
+                <p class="text-lg text-gray-700">혹시라도 과세 대상 금액이 생긴다 해도,
+                    <br> <span class="font-bold">회사가 알아서 모두 계산하고 처리해 줄 거야.</span>
+                    <br> 나중에 연말정산 명세서에서 최종 결과를 확인만 하면 된단다.
+                    <br> 다람이가 직접 해야 할 일은 전혀 없으니 걱정 마렴!</p>
             </div>
         </section>
 
         <!-- Section 6: FAQ Summary -->
         <section id="faq-summary">
-            <h2 class="text-2xl font-bold text-center mb-6">다람이와 올빼미 할아버지의 Q&A 다시보기</h2>
+            <h2 class="text-2xl font-bold text-center mb-6">다람이와 올빼미 할아버지의 궁금증 해결 시간! (Q&A)</h2>
             <div class="space-y-4 max-w-3xl mx-auto">
                 <div class="accordion-item">
                     <button class="accordion-header">
@@ -165,16 +180,18 @@
                         <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p>A. 네, 맞아요! 2월 28일에 법이 바뀌어서 이제 회사에서 받은 할인 금액도 '근로소득'으로 봐요. 세금을 더 공정하게 매기기 위한 조치랍니다.</p>
+                        <p>A. 네, 맞아요! 2월 28일에 법이 바뀌어서 이제 회사에서 받은 할인 금액도 '근로소득'으로 봐요.
+                            <br> 세금을 더 공정하게 매기기 위한 조치랍니다.</p>
                     </div>
                 </div>
                 <div class="accordion-item">
                     <button class="accordion-header">
-                        <span>Q. 저는 G-FIT 같은 거 거의 안 쓰는데, 그래도 세금을 내야 하나요?</span>
+                        <span>Q. 저는 G-FIT을 다니지 않는데, 그래도 세금을 내야 하나요?</span>
                         <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p>A. 아니요! 할인을 실제로 받은 경우에만 해당돼요. 할인을 전혀 쓰지 않았다면 추가로 낼 세금은 없으니 안심하세요.</p>
+                        <p>A. 아니요! 한도금액 240만원까지는 괜찮아요.
+                            <br> 또한, 할인을 전혀 쓰지 않았다면 추가로 낼 세금은 없으니 안심하세요.</p>
                     </div>
                 </div>
                 <div class="accordion-item">
@@ -183,7 +200,9 @@
                         <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p>A. 우리한테 가장 유리한 쪽으로 세금을 깎아준다는 뜻이에요. 두 금액 중 더 큰 금액까지는 세금을 안 내도 돼요. 대부분의 경우 연 240만원까지는 세금 걱정 없이 할인을 받을 수 있을 거예요.</p>
+                        <p>A. 우리한테 가장 유리한 쪽으로 세금을 깎아준다는 뜻이에요.
+                            <br> 두 금액 중 더 큰 금액까지는 세금을 안 내도 돼요.
+                            <br> 대부분의 경우 연 240만원까지는 세금 걱정 없이 할인을 받을 수 있을 거예요.</p>
                     </div>
                 </div>
                 <div class="accordion-item">
@@ -192,7 +211,8 @@
                         <span>▼</span>
                     </button>
                     <div class="accordion-content">
-                        <p>A. 한도를 초과한 금액은 다른 소득과 합쳐져서 세금이 계산돼요. 하지만 회사가 알아서 다 처리해줄 거니까 직접 하실 일은 전혀 없답니다!</p>
+                        <p>A. 한도를 초과한 금액은 다른 소득과 합쳐져서 세금이 계산돼요.
+                            <br> 연말정산 때 한번에 계산할 거니까 직접 하실 일은 전혀 없답니다!</p>
                     </div>
                 </div>
             </div>
@@ -207,154 +227,227 @@
             const resultUsed = document.getElementById('result-used');
             const resultNotUsed = document.getElementById('result-not-used');
             
-            // Event listeners for "Am I affected?" buttons
+            // "내가 영향을 받을까?" 버튼에 대한 이벤트 리스너
             usedBtn.addEventListener('click', () => {
+                usedBtn.classList.add('button-selected');
+                usedBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                notUsedBtn.classList.remove('button-selected');
+                notUsedBtn.classList.add('bg-gray-200', 'text-gray-700');
                 resultUsed.classList.remove('hidden');
                 resultNotUsed.classList.add('hidden');
             });
 
             notUsedBtn.addEventListener('click', () => {
+                notUsedBtn.classList.add('button-selected');
+                notUsedBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                usedBtn.classList.remove('button-selected');
+                usedBtn.classList.add('bg-gray-200', 'text-gray-700');
                 resultNotUsed.classList.remove('hidden');
                 resultUsed.classList.add('hidden');
             });
 
-            const discountButtons = document.querySelectorAll('.discount-btn');
-            const selectedDiscountValueInput = document.getElementById('selected-discount-value');
+            const gFitCheckbox = document.getElementById('gfit-checkbox');
+            const paycoCafeCheckbox = document.getElementById('payco-cafe-checkbox');
+            const noneCheckbox = document.getElementById('none-checkbox'); // 새롭게 추가된 체크박스
             const calculateBtn = document.getElementById('calculate-btn');
             const resultArea = document.getElementById('result-area');
             const resultText = document.getElementById('result-text');
             const ctx = document.getElementById('taxChart').getContext('2d');
             let taxChart;
 
-            // Event listeners for discount amount selection buttons
-            discountButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active state from all buttons
-                    discountButtons.forEach(btn => btn.classList.remove('bg-amber-700'));
-                    // Add active state to the clicked button
-                    button.classList.add('bg-amber-700');
-                    selectedDiscountValueInput.value = button.dataset.value;
-                });
+            // 혜택 금액과 비과세 한도 상수
+            const GFIT_ANNUAL_BENEFIT = 600000; // 60만원
+            const PAYCO_CAFE_ANNUAL_BENEFIT = 1800000; // 180만원 (월 15만원 * 12개월)
+            const NON_TAXABLE_FIXED_LIMIT = 2400000; // 240만원
+
+            // 체크박스 상호작용 로직
+            gFitCheckbox.addEventListener('change', () => {
+                if (gFitCheckbox.checked) {
+                    noneCheckbox.checked = false;
+                    noneCheckbox.disabled = true;
+                } else {
+                    if (!paycoCafeCheckbox.checked) { // G-fit만 해제된 경우에만 '아무것도 해당 안돼요' 활성화
+                        noneCheckbox.disabled = false;
+                    }
+                }
             });
 
-            // Event listener for the calculate button
-            calculateBtn.addEventListener('click', () => {
-                const totalDiscount = parseInt(selectedDiscountValueInput.value) || 0;
-                const marketValue = parseInt(document.getElementById('market-value').value) || 0;
-
-                if (totalDiscount === 0) {
-                    // Using a custom modal/message box instead of alert()
-                    resultText.innerHTML = '<p class="text-red-600 font-bold">총 할인 금액 단위를 선택해주세요.</p>';
-                    resultArea.classList.remove('hidden');
-                    return;
+            paycoCafeCheckbox.addEventListener('change', () => {
+                if (paycoCafeCheckbox.checked) {
+                    noneCheckbox.checked = false;
+                    noneCheckbox.disabled = true;
+                } else {
+                    if (!gFitCheckbox.checked) { // Payco만 해제된 경우에만 '아무것도 해당 안돼요' 활성화
+                        noneCheckbox.disabled = false;
+                    }
                 }
+            });
 
-                // Calculate non-taxable limit (the greater of 2.4 million KRW or 20% of market value)
-                const limit1 = 2400000; // 2.4 million KRW fixed limit
-                const limit2 = marketValue * 0.2; // 20% of market value
-                
-                const nonTaxableLimit = Math.max(limit1, limit2);
-                const taxableAmount = Math.max(0, totalDiscount - nonTaxableLimit);
-                const nonTaxableAmount = totalDiscount - taxableAmount; // Amount within the non-taxable limit
+            noneCheckbox.addEventListener('change', () => {
+                if (noneCheckbox.checked) {
+                    gFitCheckbox.checked = false;
+                    paycoCafeCheckbox.checked = false;
+                    gFitCheckbox.disabled = true;
+                    paycoCafeCheckbox.disabled = true;
+                } else {
+                    gFitCheckbox.disabled = false;
+                    paycoCafeCheckbox.disabled = false;
+                }
+            });
 
+
+            // 계산 버튼에 대한 이벤트 리스너
+            calculateBtn.addEventListener('click', () => {
+                const isGFitSelected = gFitCheckbox.checked;
+                const isPaycoSelected = paycoCafeCheckbox.checked;
+                const isNoneSelected = noneCheckbox.checked;
+
+                let totalBenefit = 0;
+                let explanation = '';
+                let showChart = true; // 차트 표시 여부 제어 플래그
+
+                // resultArea를 항상 보이게 설정
                 resultArea.classList.remove('hidden');
 
-                // Data for Chart.js
-                const data = {
-                    labels: ['비과세 금액', '과세 대상 금액'],
-                    datasets: [{
-                        label: '금액 (원)',
-                        data: [nonTaxableAmount, taxableAmount],
-                        backgroundColor: [
-                            '#4ade80', // green-400
-                            '#f87171'  // red-400
-                        ],
-                        borderColor: [
-                            '#22c55e', // green-500
-                            '#ef4444'  // red-500
-                        ],
-                        borderWidth: 1
-                    }]
-                };
-
-                // Update or create the chart
-                if (taxChart) {
-                    taxChart.data = data;
-                    taxChart.update();
+                if (isNoneSelected) {
+                    totalBenefit = 0;
+                    explanation = `
+                        <p class="text-xl font-bold mb-2 text-green-600">다람아, 연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원 비과세 할인 혜택을 넘지 않도록 유의해서 혜택을 받아보아요 ✅</p>
+                        <p class="text-gray-600">현재 네가 선택한 혜택이 없으니 추가적인 세금 부담은 없을 것으로 예상된단다.</p>
+                    `;
+                    showChart = false; // '아무것도 해당 안돼요' 선택 시 차트 숨김
                 } else {
-                    taxChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: data,
-                        options: {
-                            indexAxis: 'y', // Horizontal bars
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: {
-                                    stacked: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return new Intl.NumberFormat('ko-KR').format(value) + '원';
+                    if (isGFitSelected) {
+                        totalBenefit += GFIT_ANNUAL_BENEFIT;
+                    }
+                    if (isPaycoSelected) {
+                        totalBenefit += PAYCO_CAFE_ANNUAL_BENEFIT;
+                    }
+
+                    if (isGFitSelected && isPaycoSelected) {
+                        explanation = `
+                            <p class="text-xl font-bold mb-2 text-amber-700">이런, 연간 비과세 허용 금액 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원을 넘을 수도 있어요 조심해요! ⚠️</p>
+                            <p class="text-gray-600">G-fit과 ㅋㅋㅋ까페 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
+                        `;
+                    } else if (isGFitSelected) {
+                        const remainingLimit = NON_TAXABLE_FIXED_LIMIT - totalBenefit;
+                        explanation = `
+                            <p class="text-xl font-bold mb-2 text-blue-600">G-fit을 통해 연간 ${GFIT_ANNUAL_BENEFIT.toLocaleString('ko-KR')}원을 비과세 할인 받고 있어요! 👍</p>
+                            <p class="text-gray-600">남은 한도 금액 ${remainingLimit.toLocaleString('ko-KR')}원을 넘기지 않도록 주의하세요😊</p>
+                        `;
+                    } else if (isPaycoSelected) {
+                        explanation = `
+                            <p class="text-xl font-bold mb-2 text-blue-600">다람아, 연간 ${PAYCO_CAFE_ANNUAL_BENEFIT.toLocaleString('ko-KR')}원의 비과세 혜택을 받고 있구나! 👍</p>
+                            <p class="text-gray-600">연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원 비과세 할인 혜택을 넘지 않도록 유의해서 혜택을 받아보아요.</p>
+                        `;
+                    } else { // 아무것도 선택하지 않은 경우 (none-checkbox도 선택 안함)
+                        totalBenefit = 0; 
+                        explanation = `
+                            <p class="text-xl font-bold mb-2 text-green-600">다람아, 연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원 비과세 할인 혜택을 넘지 않도록 유의해서 혜택을 받아보아요 ✅</p>
+                            <p class="text-gray-600">현재 네가 선택한 혜택이 없으니 추가적인 세금 부담은 없을 것으로 예상된단다.</p>
+                        `;
+                        showChart = false;
+                    }
+                }
+
+                // 고정된 비과세 한도를 기반으로 과세 금액 결정
+                const taxableAmount = Math.max(0, totalBenefit - NON_TAXABLE_FIXED_LIMIT);
+                const nonTaxableAmount = totalBenefit - taxableAmount;
+
+                resultText.innerHTML = explanation;
+                if (showChart) {
+                    document.getElementById('taxChart').style.display = 'block'; // 차트 표시
+                    // Chart.js를 위한 데이터
+                    const chartData = {
+                        labels: ['비과세 금액', '과세 대상 금액'],
+                        datasets: [{
+                            label: '금액 (원)',
+                            data: [nonTaxableAmount, taxableAmount],
+                            backgroundColor: [
+                                '#4ade80', // 녹색-400
+                                '#f87171'  // 빨간색-400
+                            ],
+                            borderColor: [
+                                '#22c55e', // 녹색-500
+                                '#ef4444'  // 빨간색-500
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+
+                    // 차트 업데이트 또는 생성
+                    if (taxChart) {
+                        taxChart.data = chartData;
+                        taxChart.update();
+                    } else {
+                        taxChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: chartData,
+                            options: {
+                                indexAxis: 'y', // 가로 막대
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return new Intl.NumberFormat('ko-KR').format(value) + '원';
+                                            }
                                         }
                                     },
-                                    grid: {
-                                        display: false // Hide x-axis grid lines for cleaner look
+                                    y: {
+                                        stacked: true,
                                     }
                                 },
-                                y: {
-                                    stacked: true,
-                                    grid: {
-                                        display: false // Hide y-axis grid lines
+                                plugins: {
+                                    legend: {
+                                        display: false // 범례 숨기기
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                let label = context.dataset.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed.x !== null) {
+                                                    label += new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(context.parsed.x);
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    },
+                                    datalabels: { // datalabels 플러그인 설정
+                                        anchor: 'center', // 중앙에 위치
+                                        align: 'center',   // 중앙 정렬
+                                        color: '#000',
+                                        formatter: function(value, context) {
+                                            return new Intl.NumberFormat('ko-KR').format(value) + '원';
+                                        },
+                                        font: {
+                                            weight: 'bold',
+                                            size: 16 // 글씨 크기 크게
+                                        }
                                     }
                                 }
                             },
-                            plugins: {
-                                legend: {
-                                    display: false // Hide legend
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            if (context.parsed.x !== null) {
-                                                label += new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(context.parsed.x);
-                                            }
-                                            return label;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-                
-                // Update result text
-                let explanation = `<p class="text-lg font-bold mb-2">총 할인 금액: ${totalDiscount.toLocaleString('ko-KR')}원</p>`;
-                if (marketValue > 0) {
-                    explanation += `<p class="text-gray-600">비과세 한도는 '연 240만원'과 '시가의 20%(${limit2.toLocaleString('ko-KR')}원)' 중 더 큰 금액인 <span class="font-bold text-green-600">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>입니다.</p>`;
+                            plugins: [ChartDataLabels] // datalabels 플러그인 등록
+                        });
+                    }
                 } else {
-                    explanation += `<p class="text-gray-600">기본 비과세 한도인 <span class="font-bold text-green-600">${nonTaxableLimit.toLocaleString('ko-KR')}원</span>이 적용됩니다.</p>`;
+                    // 차트를 숨기고 결과 영역은 텍스트를 위해 유지
+                    document.getElementById('taxChart').style.display = 'none';
                 }
-
-                if (taxableAmount > 0) {
-                    explanation += `<p class="mt-4 text-xl font-bold">따라서 과세 대상이 되는 금액은 <span class="text-red-600">${taxableAmount.toLocaleString('ko-KR')}원</span> 입니다.</p>`;
-                    explanation += `<p class="text-sm text-gray-500 mt-2">이 금액은 다른 소득과 합산되어 세금이 계산됩니다.</p>`;
-                } else {
-                    explanation += `<p class="mt-4 text-xl font-bold text-blue-600">이 금액은 비과세 한도 내에 있어 세금이 부과되지 않습니다.</p>`;
-                }
-                resultText.innerHTML = explanation;
             });
 
-            // Accordion functionality for Q&A
+            // Q&A를 위한 아코디언 기능
             document.querySelectorAll('.accordion-header').forEach(button => {
                 button.addEventListener('click', () => {
                     const content = button.nextElementSibling;
                     const arrow = button.querySelector('span:last-child');
                     
-                    // Close other open accordions
+                    // 다른 열려 있는 아코디언 닫기
                     button.parentElement.parentElement.querySelectorAll('.accordion-content').forEach(item => {
                         if (item !== content) {
                            item.style.maxHeight = null;
@@ -362,7 +455,7 @@
                         }
                     });
 
-                    // Toggle current accordion
+                    // 현재 아코디언 토글
                     if (content.style.maxHeight) {
                         content.style.maxHeight = null;
                         arrow.classList.remove('rotate-180');
