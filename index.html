@@ -327,7 +327,7 @@
                     if (isGFitSelected && isPaycoSelected) {
                         explanation = `
                             <p class="text-xl font-bold mb-2 text-amber-700">이런, 연간 비과세 허용 금액 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원을 넘을 수도 있어요 조심해요! ⚠️</p>
-                            <p class="text-gray-600">G-fit과 ㅋㅋㅋ까페 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
+                            <p class="text-gray-600">G-fit과 ㅋㅋ까페 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
                         `;
                     } else if (isGFitSelected) {
                         const remainingLimit = NON_TAXABLE_FIXED_LIMIT - totalBenefit;
