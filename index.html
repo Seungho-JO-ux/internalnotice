@@ -309,16 +309,18 @@
                 } else {
                     // 고정된 비과세 한도를 기반으로 과세 금액 결정
                     const taxableAmount = Math.max(0, totalBenefit - NON_TAXABLE_FIXED_LIMIT);
-                    const nonTaxableAmount = totalBenefit - taxableAmount;
+                    // const nonTaxableAmount = totalBenefit - taxableAmount; // 비과세 금액은 텍스트로만 표시되므로 직접 계산할 필요 없음
 
-                    if (totalBenefit > NON_TAXABLE_FIXED_LIMIT) {
+                    // 조건 변경: totalBenefit이 비과세 한도보다 크거나 같을 때 경고 메시지 출력
+                    if (totalBenefit >= NON_TAXABLE_FIXED_LIMIT) {
                         explanation = `
-                            <p class="text-xl font-bold mb-2 text-amber-700">이런 다람아, 연간 비과세 허용 금액 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원을 넘을 수도 있어요 조심해요! ⚠️</p>
-                            <p class="text-gray-600">선택한 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
-                            <p class="mt-4 text-xl font-bold">따라서 과세 대상이 되는 금액은 <span class="text-red-600">${taxableAmount.toLocaleString('ko-KR')}원</span> 이야.</p>
-                            <p class="text-sm text-gray-500 mt-2">*이 금액은 다른 소득과 합산되어 세금이 계산됩니다.</p>
+                            <p class="text-xl font-bold mb-2 text-amber-700">다람아, 연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원의 비과세 한도를 넘을 수도 있겠구나! ⚠️</p>
+                            <p class="text-gray-600">한도 금액을 넘기지 않도록 주의하자꾸나</p>
+                            <p class="text-gray-600 mt-2">선택한 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
+                            <p class="text-gray-600 mt-2">하지만 월별 할인 금액에 따라 과세금액이 있을 수 있겠구나.</p>
+                            <p class="mt-4 text-xl font-bold">*이 금액은 다른 소득과 합산되어 세금이 계산됩니다.</p>
                         `;
-                    } else { // totalBenefit is > 0 but <= NON_TAXABLE_FIXED_LIMIT
+                    } else { // totalBenefit is > 0 but < NON_TAXABLE_FIXED_LIMIT
                         const remainingLimit = NON_TAXABLE_FIXED_LIMIT - totalBenefit;
                         explanation = `
                             <p class="text-xl font-bold mb-2 text-blue-600">다람아, 연간 ${totalBenefit.toLocaleString('ko-KR')}원의 비과세 할인 혜택을 받고 있구나~ 👍</p>
