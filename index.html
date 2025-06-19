@@ -304,7 +304,7 @@
                     explanation = `
                         <p class="text-xl font-bold mb-2 text-green-600">다람아, 네가 선택한 할인 혜택은 <span class="text-4xl text-green-800">0원</span>이구나!</p>
                         <p class="text-gray-600">따라서 추가적인 세금 부담은 없을 것으로 예상된단다.</p>
-                        <p class="text-lg font-bold mt-4">연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원 비과세 한도 내에서 할인 혜택을 이용해 보렴 ✅</p>
+                        <p class="text-lg font-bold mt-4">연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원 비과세 한도 내에서 할인 혜택을 이용해 보려무나✅</p>
                     `;
                 } else {
                     // 고정된 비과세 한도를 기반으로 과세 금액 결정
@@ -314,18 +314,18 @@
                     // 조건 변경: totalBenefit이 비과세 한도보다 크거나 같을 때 경고 메시지 출력
                     if (totalBenefit >= NON_TAXABLE_FIXED_LIMIT) {
                         explanation = `
-                            <p class="text-xl font-bold mb-2 text-amber-700">다람아, 연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원의 비과세 한도를 넘을 수도 있겠구나! ⚠️</p>
-                            <p class="text-gray-600">한도 금액을 넘기지 않도록 주의하자꾸나</p>
+                            <p class="text-xl font-bold mb-2 text-amber-700">⚠️다람아, 연간 ${NON_TAXABLE_FIXED_LIMIT.toLocaleString('ko-KR')}원의 비과세 한도를 넘을 수도 있겠구나!⚠️</p>
+                            <p class="text-gray-600">⚠️한도 금액을 넘기지 않도록 조심하렴!⚠️</p>
                             <p class="text-gray-600 mt-2">선택한 혜택을 합하면 연간 <span class="font-bold">${totalBenefit.toLocaleString('ko-KR')}원</span>만큼의 혜택을 받고 있단다.</p>
                             <p class="text-gray-600 mt-2">하지만 월별 할인 금액에 따라 과세금액이 있을 수 있겠구나.</p>
-                            <p class="mt-4 text-xl font-bold">*이 금액은 다른 소득과 합산되어 세금이 계산됩니다.</p>
+                            
                         `;
                     } else { // totalBenefit is > 0 but < NON_TAXABLE_FIXED_LIMIT
                         const remainingLimit = NON_TAXABLE_FIXED_LIMIT - totalBenefit;
                         explanation = `
                             <p class="text-xl font-bold mb-2 text-blue-600">다람아, 연간 ${totalBenefit.toLocaleString('ko-KR')}원의 비과세 할인 혜택을 받고 있구나~ 👍</p>
                             <p class="text-gray-600">남은 한도 금액 ${remainingLimit.toLocaleString('ko-KR')}원을 넘기지 않도록 주의하자꾸나😊</p>
-                            <p class="mt-4 text-xl font-bold text-blue-600">*이 금액은 비과세 한도 내에 있어 세금이 부과되지 않습니다.</p>
+                            
                         `;
                     }
                 }
